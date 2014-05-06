@@ -1,0 +1,6 @@
+package com.iraitzcompains.holamundo;
+
+
+public class MiReceiver extends ReceiverRecord {
+
+}
