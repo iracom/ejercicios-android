@@ -1,0 +1,10 @@
+package com.iraitzcompains.calculadora;
+
+public class Calc {
+
+	private int num1, num2;
+	
+	public static int sum (String numero) {
+		num1 = numero;
+	}
+}

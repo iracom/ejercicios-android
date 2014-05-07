@@ -1,0 +1,12 @@
+package com.iraitzcompains.calculadora;
+
+public class Calc {
+
+	private static int num1, num2;
+	private char operacion;
+	
+	public static void sum (int numero) {
+		num1 = numero;
+		operacion = '+';
+	}
+}
