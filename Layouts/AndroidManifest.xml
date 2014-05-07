@@ -20,6 +20,10 @@
         <activity
             android:name="com.iraitzcompains.layouts.RelativeActivity"
             android:label="@string/title_activity_relative" >
+        </activity>
+        <activity
+            android:name="com.iraitzcompains.layouts.FormActivity"
+            android:label="@string/title_activity_form" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

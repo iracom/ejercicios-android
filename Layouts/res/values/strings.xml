@@ -14,5 +14,10 @@
     <string name="button_h">H</string>
     <string name="button_i">I</string>
     <string name="title_activity_relative">RelativeActivity</string>
+    <string name="title_activity_form">FormActivity</string>
+    <string name="to">To</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
+    <string name="send">Send</string>
 
 </resources>
