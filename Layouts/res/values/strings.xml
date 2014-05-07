@@ -13,5 +13,6 @@
     <string name="button_g">G</string>
     <string name="button_h">H</string>
     <string name="button_i">I</string>
+    <string name="title_activity_relative">RelativeActivity</string>
 
 </resources>
