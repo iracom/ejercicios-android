@@ -18,6 +18,7 @@ import com.iraitzcompains.calculadora.Calc;
 public class MainActivity extends Activity {
 
 	String texto;
+	String numero;
 	TextView output;
 
 	@Override
@@ -27,49 +28,103 @@ public class MainActivity extends Activity {
 
 		output = (TextView) findViewById(R.id.output);
 		texto = "";
+		numero = "";
+		Calc.inicializa();
 	}
 
+	/**
+	 * Acciones de pulsar botones de la calculadora
+	 * 
+	 * @param v
+	 */
 	public void clickBoton(View v) {
 		Button btn = (Button) v;
 		char dato = btn.getText().toString().charAt(0);
 		switch (dato) {
 		case '+':
-			Log.d("CALC", "Se ha pulsado +");
-			Calc.sum(Integer.parseInt(output.getText().toString()));
+			// Calc.sum(Integer.parseInt(numero));
+			Calc.sum(Float.parseFloat(numero));
+			texto += "+";
+			numero = "";
+			output.setText(texto);
 			break;
 		case '-':
-			Log.d("CALC", "Se ha pulsado -");
+			// Calc.res(Integer.parseInt(numero));
+			Calc.res(Float.parseFloat(numero));
+			texto += "-";
+			numero = "";
+			output.setText(texto);
 			break;
 		case 'x':
-			Log.d("CALC", "Se ha pulsado x");
+			// Calc.mul(Integer.parseInt(numero));
+			Calc.mul(Float.parseFloat(numero));
+			texto += "x";
+			numero = "";
+			output.setText(texto);
 			break;
 		case '/':
-			Log.d("CALC", "Se ha pulsado /");
+			Calc.div(Float.parseFloat(numero));
+			texto += "/";
+			numero = "";
+			output.setText(texto);
 			break;
 		case '=':
-			Log.d("CALC", "Se ha pulsado =");
+			if (!numero.equals("")) {
+				numero = String.valueOf(Calc.igual(Float.parseFloat(numero)));
+				texto = numero;
+				output.setText(texto);
+			}
 			break;
 		case '.':
 			addPunto(dato);
 			break;
 		default:
 			int num = Integer.parseInt(String.valueOf(dato));
-			texto += String.valueOf(num);
+			numero += String.valueOf(num);
+			texto += numero;
 			output.setText(texto);
 			break;
 		}
 	}
-	
-	private void addPunto(char dato){
-		if(texto.equals(""))
-			texto += "0.";
-		else if(!texto.contains(String.valueOf(dato)))
-				texto += dato;
+
+	private void addPunto(char dato) {
+		if (numero.equals("")) {
+			numero += "0.";
+			texto = numero;
+		} else if (!numero.contains(String.valueOf(dato))) {
+			numero += dato;
+			texto = numero;
+		}
 		output.setText(texto);
 	}
+
+	public void clickBorrar(View v) {
+		numero = "";
+		texto = numero;
+		output.setText(texto);
+	}
+
+	/**
+	 * Para el giro de la pantalla del movil
+	 */
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putString("texto", texto);
+		outState.putString("numero", numero);
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		texto = savedInstanceState.getString("texto");
+		numero = savedInstanceState.getString("numero");
+	}
 	
-	public void clickBorrar(View v){
-		texto = "";
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
 		output.setText(texto);
 	}
 
