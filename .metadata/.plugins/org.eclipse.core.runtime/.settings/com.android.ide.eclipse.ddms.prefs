@@ -8,4 +8,4 @@ logcat.view.colsize.TID=46
 logcat.view.colsize.Tag=101
 logcat.view.colsize.Text=545
 logcat.view.colsize.Time=140
-logcat.view.filters.list=name\: 'ActivityA', tag\: 'ActivityA', text\: '', pid\: '', app\: '', level\: 'debug', name\: 'CICLO DE VIDA', tag\: 'CICLO_DE_VIDA', text\: '', pid\: '', app\: '', level\: 'debug', 
+logcat.view.filters.list=name\: 'ActivityA', tag\: 'ActivityA', text\: '', pid\: '', app\: '', level\: 'debug', name\: 'CICLO DE VIDA', tag\: 'CICLO_DE_VIDA', text\: '', pid\: '', app\: '', level\: 'debug', name\: 'Calculadora', tag\: 'CALC', text\: '', pid\: '', app\: '', level\: 'debug', 

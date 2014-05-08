@@ -1,0 +1,54 @@
+package com.iraitzcompains.calculadora;
+
+import android.util.Log;
+
+public class Calc {
+
+	private static float fnum1, fnum2;
+	private static char operacion;
+	
+	public static void sum(float numero) {
+		fnum1 = numero;
+		Log.d("CALC","numero1=" + String.valueOf(fnum1));
+		operacion = '+';
+	}
+	
+	public static void res(float numero) {
+		fnum1 = numero;
+		operacion = '-';
+	}
+	
+	public static void mul(float numero) {
+		fnum1 = numero;
+		operacion = 'x';
+	}
+	
+	public static void div(float numero) {
+		fnum1 = numero;
+		operacion = '+';
+	}
+	
+	public static float igual(float numero) {
+		float resultado = 0;
+		fnum2 = numero;
+		switch(operacion) {
+		case '+':
+			resultado = fnum1 + fnum2;
+			break;
+		case '-':
+			resultado = fnum1 - fnum2;
+			break;
+		case 'x':
+			resultado = fnum1 * fnum2;
+			break;
+		case '/':
+			if(fnum2 != 0)
+				resultado = fnum1 / fnum2;
+			else
+				resultado = 0;
+			break;
+		}
+		return resultado;
+	}
+	
+}

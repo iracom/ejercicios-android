@@ -1,0 +1,42 @@
+package com.iraitzcompains.calculadora;
+
+public class Calc {
+
+	private static int num1, num2;
+	private static char operacion;
+	
+	public static void sum(int numero) {
+		num1 = numero;
+		operacion = '+';
+	}
+	
+	public static void res(int numero) {
+		num1 = numero;
+		operacion = '-';
+	}
+	
+	public static void mul(int numero) {
+		num1 = numero;
+		operacion = 'x';
+	}
+	
+	public static int igual(int numero) {
+		int resultado = 0;
+		num2 = numero;
+		switch(operacion) {
+		case '+':
+			resultado = num1 + num2;
+			break;
+		case '-':
+			resultado = num1 - num2;
+			break;
+		case 'x':
+			resultado = num1 * num2;
+			break;
+		case '/':
+			break;
+		}
+		return resultado;
+	}
+	
+}
