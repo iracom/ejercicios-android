@@ -23,7 +23,15 @@ public class Output extends Fragment {
 		return view;
 	}
 	
-	public void mostrarResultado(String res) {
+	public void mostrarCalculo(String res) {
 		display.setText(display.getText() + res);
+	}
+	
+	public void mostrarResultado(String res){
+		display.setText(res);
+	}
+	
+	public void vaciarDisplay() {
+		display.setText("");
 	}
 }

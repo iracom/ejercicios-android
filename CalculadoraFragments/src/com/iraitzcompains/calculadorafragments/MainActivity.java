@@ -26,7 +26,7 @@ public class MainActivity extends Activity implements TecladoSimple.ITeclado {
 	}
 
 	private void proyectarNumero(String numero) {
-		display.mostrarResultado(numero);
+		display.mostrarCalculo(numero);
 	}
 
 	@Override
@@ -49,12 +49,13 @@ public class MainActivity extends Activity implements TecladoSimple.ITeclado {
 			break;
 		case '=':
 			numero = String.valueOf(Calc.igual(Integer.parseInt(numero)));
-			proyectarNumero(numero);
+			display.mostrarResultado(numero);
 			break;
 		case '.':
 			addPunto(dato);
 			break;
 		case 'D':
+			display.vaciarDisplay();
 			break;
 		}
 
