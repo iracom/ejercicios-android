@@ -8,16 +8,13 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
-public class MainActivity extends Activity implements ImputFragment.IimputFragment {
+public class MainActivity extends Activity implements
+		ImputFragment.IimputFragment {
 
 	FragmentManager fragmentManager;
 	FragmentTransaction fragmentTransaction;
-	
-	ArrayList<String> lista;
-	ArrayAdapter<String> adapter;
-	
-	MiLista miListaFragment;
-	
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,42 +22,22 @@ public class MainActivity extends Activity implements ImputFragment.IimputFragme
 
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
-		
-		lista = new ArrayList<String>();
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lista);
-		miListaFragment = new MiLista();
-		miListaFragment.setListAdapter(adapter);
-		
-		fragmentTransaction.replace(R.id.input_fragment, new ImputFragment());
-		
-		fragmentTransaction.replace(R.id.mi_lista, miListaFragment);
-		
-		fragmentTransaction.commit();
-		
+
+
+		if (savedInstanceState == null) {
+			fragmentTransaction.add(R.id.input_fragment, new ImputFragment());
+
+			fragmentTransaction.add(R.id.mi_lista, new MiLista(), "lista");
+
+			fragmentTransaction.commit();
+		}
+
 	}
 
 	@Override
 	public void addToDo(String todo) {
-		lista.add(0, todo);
-		adapter.notifyDataSetChanged();
-	}
-	
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putStringArrayList("lista", lista);
-		super.onSaveInstanceState(outState);
-	}
-	
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		lista.addAll(savedInstanceState.getStringArrayList("lista"));
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		adapter.notifyDataSetChanged();
+		((MiLista) getFragmentManager().findFragmentByTag("lista"))
+				.addItem(todo);
 	}
 
 }
