@@ -7,11 +7,14 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.Data;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +28,7 @@ public class MainActivity extends Activity {
 
 	private static final int FORMULARIO = 1;
 	private static final int CAMARA = 2;
-	
-	private String mCurrentPhotoPath;
+	private static final int CONTACTOS = 3;
 	
 	EditText editText;
 	TextView textView;
@@ -47,6 +49,7 @@ public class MainActivity extends Activity {
 		
 		btnForm = (Button)findViewById(R.id.btnForm);
 		btnCamera = (Button)findViewById(R.id.btnCamera);
+		btnContact = (Button)findViewById(R.id.btnContact);
 		
 		btnForm.setOnClickListener(new OnClickListener() {
 			
@@ -84,6 +87,16 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		btnContact.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
+				intent.setType(Phone.CONTENT_TYPE);
+				startActivityForResult(intent, CONTACTOS);
+			}
+		});
+		
 	}
 	
 	private File createImageFile() throws IOException {
@@ -117,11 +130,34 @@ public class MainActivity extends Activity {
 				imageView.setImageBitmap(imageBitmap);*/
 				setPic();
 			}
+		case CONTACTOS:
+			if(resultCode == Activity.RESULT_OK) {
+				// Get the URI that points to the selected contact
+	            Uri contactUri = data.getData();
+	            // We only need the NUMBER column, because there will be only one row in the result
+	            String[] projection = {Phone.NUMBER};
+
+	            // Perform the query on the contact to get the NUMBER column
+	            // We don't need a selection or sort order (there's only one result for the given URI)
+	            // CAUTION: The query() method should be called from a separate thread to avoid blocking
+	            // your app's UI thread. (For simplicity of the sample, this code doesn't do that.)
+	            // Consider using CursorLoader to perform the query.
+	            Cursor cursor = getContentResolver()
+	                    .query(contactUri, projection, null, null, null);
+	            cursor.moveToFirst();
+
+	            // Retrieve the phone number from the NUMBER column
+	            int column = cursor.getColumnIndex(Phone.NUMBER);
+	            String number = cursor.getString(column);
+
+	            // Do something with the phone number...
+			}
 		default:
 			break;
 		}
 	}
 	
+	//Codifica la imagen para que se vea bien
 	private void setPic() {
 	    // Get the dimensions of the View
 	    int targetW = imageView.getWidth();
