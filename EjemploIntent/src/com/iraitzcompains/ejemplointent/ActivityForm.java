@@ -18,41 +18,47 @@ import android.os.Build;
 
 public class ActivityForm extends Activity {
 
+	public static final String TEXTO_FORMULARIO = "texto_formulario";
+
 	EditText editText;
 	TextView textView;
 	Button btnOk;
 	Button btnBack;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_form);
 
-		editText = (EditText)findViewById(R.id.editTextForm);
-		textView = (TextView)findViewById(R.id.textViewForm);
-		btnOk = (Button)findViewById(R.id.btnOk);
-		btnBack = (Button)findViewById(R.id.btnBack);
-		
+		editText = (EditText) findViewById(R.id.editTextForm);
+		textView = (TextView) findViewById(R.id.textViewForm);
+		btnOk = (Button) findViewById(R.id.btnOk);
+		btnBack = (Button) findViewById(R.id.btnBack);
+
 		Intent intent = getIntent();
-		String mainText = String.valueOf(intent.getCharSequenceExtra("texto_main"));
-		textView.setText(mainText);
-		
+		if (intent != null) {
+			String mainText = String.valueOf(intent
+					.getCharSequenceExtra(MainActivity.TEXTO_MAIN));
+			textView.setText(mainText);
+		}
+
 		btnOk.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Intent respuesta = new Intent(ActivityForm.this,MainActivity.class);
-				respuesta.putExtra("texto_formulario", editText.getText().toString());
-				setResult(RESULT_OK, respuesta);
+				Intent respuesta = new Intent(); //Los intent de respuesta siempre crearlos vac’os
+				respuesta.putExtra(TEXTO_FORMULARIO, editText.getText()
+						.toString());
+				setResult(Activity.RESULT_OK, respuesta);
 				finish();
 			}
 		});
-		
+
 		btnBack.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				setResult(RESULT_CANCELED);
+				setResult(Activity.RESULT_CANCELED);
 				finish();
 			}
 		});
