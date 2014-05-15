@@ -18,6 +18,10 @@ public class Photo {
 		this.image_url = image_url;
 	}
 	
+	public String getImage_url() {
+		return this.image_url;
+	}
+	
 	@Override
 	public String toString() {
 		super.toString();

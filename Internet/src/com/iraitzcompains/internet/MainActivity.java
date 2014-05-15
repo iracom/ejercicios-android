@@ -15,12 +15,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends Activity {
 
@@ -32,6 +35,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		Button btnJson = (Button)findViewById(R.id.btnJson);
+		
 		btnJson.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -40,7 +44,7 @@ public class MainActivity extends Activity {
 					
 					@Override
 					public void run() {
-						conectarInternet();
+						descargarJson();
 					}
 				});
 				t.start();
@@ -48,28 +52,8 @@ public class MainActivity extends Activity {
 		});
 	}
 	
-	private void conectarInternet() {
-		String miUrl = getString(R.string.direccion);
-		try {
-			URL url = new URL(miUrl);
-			
-			//Create a new HTTP URL connection
-			URLConnection con = url.openConnection();
-			HttpURLConnection httpCon = (HttpURLConnection)con;
-			
-			int responseCode = httpCon.getResponseCode();
-			if(responseCode == HttpURLConnection.HTTP_OK) {
-				InputStream in = httpCon.getInputStream();
-				descargarJson(in);
-			}
-		} catch (MalformedURLException e) {
-			Log.d("INTERNET","La url no es v‡lida");
-		} catch (IOException e) {
-			Log.d("INTERNET",e.getMessage());
-		}
-	}
-	
-	private void descargarJson(InputStream in) {
+	private void descargarJson() {
+		InputStream in = connectToInternet();
 		BufferedReader bReader = new BufferedReader(new InputStreamReader(in));
 		StringBuilder builder = new StringBuilder();
 		String line;
@@ -95,10 +79,34 @@ public class MainActivity extends Activity {
 			for (Photo miphoto : photos) {
 				Log.d("INTERNET",miphoto.toString());
 			}
+			
 		} catch (JSONException e) {
 			Log.d("INTERNET",e.getMessage());
 		}
 		
+	}
+	
+	private InputStream connectToInternet() {
+		InputStream in;
+		String miUrl = getString(R.string.direccion);
+		try {
+			URL url = new URL(miUrl);
+			
+			//Create a new HTTP URL connection
+			URLConnection con = url.openConnection();
+			HttpURLConnection httpCon = (HttpURLConnection)con;
+			
+			int responseCode = httpCon.getResponseCode();
+			if(responseCode == HttpURLConnection.HTTP_OK) {
+				in = httpCon.getInputStream();
+				return in;
+			}
+		} catch (MalformedURLException e) {
+			Log.d("INTERNET","La url no es v‡lida");
+		} catch (IOException e) {
+			Log.d("INTERNET",e.getMessage());
+		}
+		return null;
 	}
 	
 }
