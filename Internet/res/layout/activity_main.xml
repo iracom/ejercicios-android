@@ -10,6 +10,28 @@
         android:id="@+id/btnJson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="@string/boton" />
+
+    <Button
+        android:id="@+id/btnDescarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/btnDescarga" />
+
+    <TextView
+        android:id="@+id/fileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/nombreArchivo" />
+
+    <TextView
+        android:id="@+id/fileSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/tamArchivo" />
     
 </LinearLayout>

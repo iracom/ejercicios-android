@@ -5,5 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="boton">Descargar JSON</string>
     <string name="direccion">http://www.arkaitzgarro.com/android/photos.json</string>
+    <string name="btnDescarga">Descargar fichero</string>
+    <string name="direccionFichero">http://developer.android.com/shareables/icon_templates-v4.0.zip</string>
+    <string name="nombreArchivo">Nombre del archivo:</string>
+    <string name="tamArchivo">Tamaño del archivo:</string>
 
 </resources>
