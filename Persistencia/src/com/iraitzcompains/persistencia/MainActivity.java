@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+	private static final int SHOW_PREFERENCES = 0;
 	TextView datoInterval, datoRefresh;
 	
 	@Override
@@ -25,7 +26,7 @@ public class MainActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-	
+		
 	}
 
 	@Override
@@ -45,6 +46,9 @@ public class MainActivity extends Activity {
 		if (id == R.id.action_settings) {
 			Intent settingsActivity = new Intent(this,SettingsActivity.class);
 			startActivity(settingsActivity);
+			
+			Intent i = new Intent(this, PreferencesActivity.class);	
+			startActivityForResult(i, SHOW_PREFERENCES);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -12,11 +12,19 @@
     <string name="default_interval">5 min</string>
 
     <string-array name="intervalos">
-        <item >5 min</item>
-        <item >15 min</item>
-        <item >30 min</item>
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
     </string-array>
+
+    <string name="title_activity_preferences">PreferencesActivity</string>
     
+    <string name="keyRefresh">autorefres</string>
+    <string name="keyInterval">interval</string>
+    <string name="keyMagnitud">magnitud</string>
     
+    <string name="sumRefresh">Se indica si se quiere refrescar la iformación</string>
+    <string name="sumInterval">Se indica cada cuanto tiempo se quiere refrescar la iformación</string>
+    <string name="sumMagnitud">Se indica el filtro de la magnitud de los terremotos</string>
 
 </resources>
