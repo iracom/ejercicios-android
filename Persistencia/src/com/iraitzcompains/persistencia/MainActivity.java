@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 	private static final int SHOW_PREFERENCES = 0;
-	TextView datoInterval, datoRefresh;
+	TextView datoInterval, datoRefresh, datoMagnitud;
+	
+	private SharedPreferences pf;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class MainActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		pf = PreferenceManager.getDefaultSharedPreferences(this);
 		
 	}
 
@@ -82,6 +87,8 @@ public class MainActivity extends Activity {
 		datoRefresh = (TextView)findViewById(R.id.txtOnOff);
 		datoInterval = (TextView)findViewById(R.id.txtIntervalData);
 		
+		datoMagnitud = (TextView)findViewById(R.id.txtMagnitudData);
+		
 		cargarPreferencias();
 	}
 	
@@ -99,6 +106,9 @@ public class MainActivity extends Activity {
 		}
 		
 		datoInterval.setText(strInterval);
+		
+		String strMagnitud = pf.getString("magnitud", "1");
+		datoMagnitud.setText(strMagnitud);
 	}
 
 }
