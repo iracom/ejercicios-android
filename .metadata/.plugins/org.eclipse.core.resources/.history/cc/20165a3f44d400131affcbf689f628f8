@@ -1,7 +1,0 @@
-<resources>
-
-    <string name="action_settings">Herramientas</string>
-    <string name="app_name">HolaMundo</string>
-    <string name="hello_world">Hola mundo!</string>
-
-</resources>
