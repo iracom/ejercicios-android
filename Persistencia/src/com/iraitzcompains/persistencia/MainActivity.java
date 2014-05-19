@@ -107,7 +107,7 @@ public class MainActivity extends Activity {
 		
 		datoInterval.setText(strInterval);
 		
-		String strMagnitud = pf.getString("magnitud", "1");
+		String strMagnitud = pf.getString(getString(R.string.keyMagnitud), "1");
 		datoMagnitud.setText(strMagnitud);
 	}
 
