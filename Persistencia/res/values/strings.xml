@@ -9,7 +9,7 @@
     <string name="interval">Interval:</string>
     <string name="intervalo">Intervalo:</string>
     <string name="on_off">Off</string>
-    <string name="default_interval">5 min</string>
+    <string name="default_interval">5</string>
 
     <string-array name="intervalos">
         <item>5 min</item>
@@ -48,5 +48,7 @@
     </string-array>
     
     <string name="prefWifi">Preferencias de WIFI</string>
+    <string name="magnitude">Magnitud:</string>
+    <string name="default_magnitud">1</string>
 
 </resources>

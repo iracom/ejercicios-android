@@ -45,4 +45,22 @@
         android:layout_alignLeft="@+id/txtOnOff"
         android:text="@string/default_interval" />
 
+    <TextView
+        android:id="@+id/txtMagnitudData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtMagnitud"
+        android:layout_alignBottom="@+id/txtMagnitud"
+        android:layout_alignLeft="@+id/txtIntervalData"
+        android:text="@string/default_magnitud" />
+
+    <TextView
+        android:id="@+id/txtMagnitud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtAutorefresh"
+        android:layout_below="@+id/txtIntervalData"
+        android:layout_marginTop="37dp"
+        android:text="@string/magnitude" />
+
 </RelativeLayout>
