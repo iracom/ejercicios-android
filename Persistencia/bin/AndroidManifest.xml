@@ -28,11 +28,7 @@
         </activity>
         <activity
             android:name="com.iraitzcompains.persistencia.PreferencesActivity"
-            android:label="@string/title_activity_preferences"
-            android:parentActivityName="android.preference.PreferenceActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.preference.PreferenceActivity" />
+            android:label="@string/title_activity_preferences">
         </activity>
     </application>
 

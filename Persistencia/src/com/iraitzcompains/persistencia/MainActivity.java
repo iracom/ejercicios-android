@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,10 +45,10 @@ public class MainActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			Intent settingsActivity = new Intent(this,SettingsActivity.class);
-			startActivity(settingsActivity);
+			/*Intent settingsActivity = new Intent(this,SettingsActivity.class);
+			startActivity(settingsActivity);*/
 			
-			Intent i = new Intent(this, PreferencesActivity.class);	
+			Intent i = new Intent(this, PreferencesActivity.class);
 			startActivityForResult(i, SHOW_PREFERENCES);
 			return true;
 		}

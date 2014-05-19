@@ -1,11 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory android:title="Preferencias de terremotos">
-        <SwitchPreference
+        <CheckBoxPreference
             android:key="@string/keyRefresh"
             android:title="@string/autorefresh"
             android:summary="@string/sumRefresh"
             android:defaultValue="false" />
+        <ListPreference
+            android:key="@string/keyInterval"
+            android:title="@string/interval"
+            android:summary="@string/sumInterval"
+            android:entries="@array/intervalos"
+            android:entryValues="@array/intervalosValues"
+            android:dependency="@string/keyRefresh"/>
+        <ListPreference 
+            android:key="@string/keyMagnitud"
+            android:title="@string/magnitud"
+            android:summary="@string/sumMagnitud"
+            android:entries="@array/magnitudes"
+            android:entryValues="@array/magnitudes"/>
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="Preferencias de sistema">
+        <Preference
+            android:title="@string/prefWifi">
+            <intent android:action="android.settings.WIFI_SETTINGS"/>
+        </Preference>
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -3,5 +3,5 @@
     <header android:fragment="com.iraitzcompains.persistencia.MyPreferenceFragment"
         android:icon="@drawable/ic_launcher"
         android:title="My Preferences"	
-		android:summary="Description	of	these	preferences" />	
+		android:summary="Description	of	these	preferences" />
 </preference-headers>
