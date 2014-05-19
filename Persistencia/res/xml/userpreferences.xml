@@ -13,6 +13,11 @@
             android:entries="@array/intervalos"
             android:entryValues="@array/intervalosValues"
             android:dependency="@string/keyRefresh"/>
+        
+    </PreferenceCategory>
+    
+    <PreferenceCategory 
+        android:title="Earthquake Flter">
         <ListPreference 
             android:key="@string/keyMagnitud"
             android:title="@string/magnitud"

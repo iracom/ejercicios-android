@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
     <header android:fragment="com.iraitzcompains.persistencia.MyPreferenceFragment"
-        android:icon="@drawable/ic_launcher"
         android:title="My Preferences"	
 		android:summary="Description	of	these	preferences" />
 </preference-headers>

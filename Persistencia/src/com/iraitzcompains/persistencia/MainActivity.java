@@ -45,11 +45,14 @@ public class MainActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			/*Intent settingsActivity = new Intent(this,SettingsActivity.class);
-			startActivity(settingsActivity);*/
+			Intent settingsActivity = new Intent(this,SettingsActivity.class);
+			startActivity(settingsActivity);
 			
+			return true;
+		} else if (id == R.id.action_preferences) {
 			Intent i = new Intent(this, PreferencesActivity.class);
 			startActivityForResult(i, SHOW_PREFERENCES);
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
