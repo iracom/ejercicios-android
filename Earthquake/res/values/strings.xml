@@ -4,5 +4,9 @@
     <string name="app_name">Earthquake</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <string name="btn_json">Descargar JSON</string>
+    
+    <string name="direccion">http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson</string>
 
 </resources>

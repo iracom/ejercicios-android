@@ -23,7 +23,6 @@ public class EarthquakeDB {
 
 	public EarthquakeDB(Context context) {
 		this.context = context;
-		this.openDB();
 	}
 
 	public void openDB() {
@@ -45,6 +44,7 @@ public class EarthquakeDB {
 	}
 
 	public long insert(Earthquake earthquake) {
+		this.openDB();
 		ContentValues insertValues = new ContentValues();
 		insertValues.put(EarthquakeDBOpenHelper.STR_ID, earthquake.getIdStr());
 		insertValues.put(EarthquakeDBOpenHelper.PLACE, earthquake.getPlace());
@@ -64,12 +64,16 @@ public class EarthquakeDB {
 		insertValues.put(EarthquakeDBOpenHelper.UPDATE_AT,
 				(new Date()).getTime());
 
-		return db.insert(EarthquakeDBOpenHelper.TABLE_NAME, null, insertValues);
+		long resultado = db.insert(EarthquakeDBOpenHelper.TABLE_NAME, null, insertValues);
+		this.closeDB();
+		
+		return resultado;
 
 	}
 
 	public Cursor query(String[] result_columns, String where,
 			String[] whereArgs, String groupBy, String having, String order) {
+		
 		RESULT_COLUMNS = result_columns;
 		WHERE = where;
 		WHERE_ARGS = whereArgs;
@@ -95,7 +99,8 @@ public class EarthquakeDB {
 		String where = EarthquakeDBOpenHelper.MAGNITUDE + " >= ?";
 		String[] where_args = { String.valueOf(magnitude) };
 
-		Cursor cursor = query(columnas, where, where_args, null, null, null);
+		this.openDB();
+		Cursor cursor = query(columnas, where, where_args, null, null, EarthquakeDBOpenHelper.TIME + " DESC");
 		if (cursor.getCount() > 0) {
 			int indId = cursor
 					.getColumnIndexOrThrow(EarthquakeDBOpenHelper._ID);
@@ -126,6 +131,7 @@ public class EarthquakeDB {
 			}
 		}
 		cursor.close();
+		this.closeDB();
 		return terremotos;
 	}
 
@@ -136,13 +142,17 @@ public class EarthquakeDB {
 			updateValues.put(campos[i], datos[i]);
 		}
 		updateValues.put(EarthquakeDBOpenHelper.UPDATE_AT, (new Date()).getTime());
+		this.openDB();
 		db.update(EarthquakeDBOpenHelper.TABLE_NAME, updateValues, where,
 				whereArgs);
+		this.closeDB();
 	}
 
 	public void detele(Earthquake eq) {
 		String whereClause = EarthquakeDBOpenHelper._ID + " = ?";
 		String[] whereArgs = { String.valueOf(eq.get_id()) };
+		this.openDB();
 		db.delete(EarthquakeDBOpenHelper.TABLE_NAME, whereClause, whereArgs);
+		this.closeDB();
 	}
 }

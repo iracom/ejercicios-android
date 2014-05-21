@@ -25,7 +25,7 @@ public class EarthquakeDBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_CREATE = "CREATE TABLE " + TABLE_NAME + " ("
 			+ _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ STR_ID + " TEXT, "
+			+ STR_ID + " TEXT UNIQUE, "
 			+ PLACE + " TEXT, "
 			+ TIME + " NUMERIC, "
 			+ DETAIL + " TEXT, "

@@ -1,58 +1,51 @@
 package com.iraitzcompains.earthquake;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
 	
-	EarthquakeDB eqdb;
+	private static final String EARTHQUAKES = "Earthquakes";
+	
+	FragmentManager fragmentManager;
+	FragmentTransaction fragmentTransaction;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		Earthquake eq = new Earthquake("1","Inventado",new Date().getTime(), "Detalle", 1.7, 0.5, 10.4, "www.url.es");
-		Earthquake eq2 = new Earthquake("2","Inventado2",new Date().getTime(), "Detalle2", 1.7, 0.5, 10.4, "www.url.es");
-		Earthquake eq3 = new Earthquake("3","Inventado3",new Date().getTime(), "Detalle3", 1.7, 0.5, 10.4, "www.url.es");
 		
-		eqdb = new EarthquakeDB(this);
-		//insertarTerremoto(eq3);
-		//actualizarTerremoto();
-		//borrarTerremoto();
-		mostrarTerremotos();
-		eqdb.closeDB();
-	}
-	
-	private void insertarTerremoto(Earthquake eq) {
-		eqdb.insert(eq);
-	}
-	
-	private void mostrarTerremotos() {
-		ArrayList<Earthquake> terremotos = eqdb.getEarthquakes(1.0);
-		for (Earthquake earthquake : terremotos) {
-			Log.d("EARTHQUAKE",earthquake.toString());
+		fragmentManager = getFragmentManager();
+		fragmentTransaction = fragmentManager.beginTransaction();
+		
+		if(savedInstanceState == null) {
+			fragmentTransaction.add(R.id.mi_lista, new EarthquakeList(), "Earthquakes");
+			
+			fragmentTransaction.commit();
 		}
-	}
-	
-	private void actualizarTerremoto() {
-		Earthquake eq = new Earthquake(1,"1","Inventado",new Date().getTime(), "Detalle", 1.7, 0.5, 10.4, "www.url.es");
-		String[] campos = {EarthquakeDBOpenHelper.PLACE, EarthquakeDBOpenHelper.DETAIL};
-		String[] datos = {"Updateado","Updateado"};
-		String where = EarthquakeDBOpenHelper._ID + " = ?";
-		String[] whereArgs = {String.valueOf(eq.get_id())};
-		eqdb.update(eq, campos, datos, where, whereArgs);
-	}
-	
-	private void borrarTerremoto() {
-		Earthquake eq = new Earthquake(3,"3","Inventado3",new Date().getTime(), "Detalle3", 1.7, 0.5, 10.4, "www.url.es");
-		eqdb.detele(eq);
+
 	}
 
 	@Override
