@@ -1,33 +1,16 @@
 package com.iraitzcompains.earthquake;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
 public class MainActivity extends Activity{
 	
-	private static final String EARTHQUAKES = "Earthquakes";
+	private static final int SHOW_PREFERENCES = 0;
 	
 	FragmentManager fragmentManager;
 	FragmentTransaction fragmentTransaction;
@@ -63,6 +46,9 @@ public class MainActivity extends Activity{
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			Intent i = new Intent(this, PreferencesActivity.class);
+			startActivityForResult(i, SHOW_PREFERENCES);
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
