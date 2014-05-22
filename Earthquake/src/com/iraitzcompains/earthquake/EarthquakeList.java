@@ -16,7 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ListFragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,63 +29,58 @@ import android.widget.Button;
 public class EarthquakeList extends ListFragment {
 
 	public final static String ITEMS_ARRAY = "ITEMS_ARRAY";
-	
-	private ArrayAdapter<String> aa;
-	private ArrayList<String> earthquakesList;
-	
+
+	private ArrayAdapter<Earthquake> aa;
+	private ArrayList<Earthquake> earthquakesList;
+
 	EarthquakeDB eqdb;
 	Button btnJson;
 	
+	SharedPreferences sp;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-		earthquakesList = new ArrayList<String>();
-		
-		aa = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1,earthquakesList);
-		
+
+		earthquakesList = new ArrayList<Earthquake>();
+
+		aa = new ArrayAdapter<Earthquake>(inflater.getContext(),
+				android.R.layout.simple_list_item_1, earthquakesList);
+
 		setListAdapter(aa);
-		
+
 		eqdb = new EarthquakeDB(inflater.getContext());
-		
+
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
-	
-	
-	
-	public void addEarthquake(Earthquake eq) {
-		earthquakesList.add(0, eq.toString());
-		aa.notifyDataSetChanged();
-	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		if(savedInstanceState != null) {
-			earthquakesList.addAll(savedInstanceState.getStringArrayList(ITEMS_ARRAY));
+
+		if (savedInstanceState != null) {
+			earthquakesList.addAll((ArrayList<Earthquake>)savedInstanceState
+					.getSerializable(ITEMS_ARRAY));
 			aa.notifyDataSetChanged();
 		} else {
-			mostrarLista();
+			mostrarLista(0);
 			obtenerInformacion();
 		}
 	}
-	
-	private void mostrarLista() {
-		mostrarTerremotos();
+
+	private void mostrarLista(double magnitud) {
+		mostrarTerremotos(magnitud);
 	}
-	
-	private void mostrarTerremotos() {
-		ArrayList<Earthquake> terremotos = eqdb.getEarthquakes(0);
-		Log.d("EARTHQUAKE","Terremotos encontrados: " + terremotos.size());
-		for (Earthquake earthquake : terremotos) {
-			this.addEarthquake(earthquake);
-		}
+
+	private void mostrarTerremotos(double magnitud) {
+		earthquakesList.clear();
+		earthquakesList.addAll(eqdb.getEarthquakes(magnitud));
+		aa.notifyDataSetChanged();
 	}
-	
+
 	private void obtenerInformacion() {
 		Thread t = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				descargarJson();
@@ -97,9 +94,9 @@ public class EarthquakeList extends ListFragment {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void descargarJson() {
-		
+
 		InputStream in = connectToInternet();
 		if (in != null) {
 			BufferedReader bReader = new BufferedReader(new InputStreamReader(
@@ -119,23 +116,27 @@ public class EarthquakeList extends ListFragment {
 				JSONArray featuresJson = jSon.getJSONArray("features");
 				for (int i = 0; i < featuresJson.length(); i++) {
 					JSONObject featureJson = featuresJson.getJSONObject(i);
-					
-					JSONObject propertiesJson = featureJson.getJSONObject("properties");
+
+					JSONObject propertiesJson = featureJson
+							.getJSONObject("properties");
 					double mag = propertiesJson.getDouble("mag");
 					String place = propertiesJson.getString("place");
 					long time = propertiesJson.getLong("time");
 					String url = propertiesJson.getString("url");
 					String detail = propertiesJson.getString("detail");
-					
-					JSONObject geometryJson = featureJson.getJSONObject("geometry");
-					JSONArray coordsJson = geometryJson.getJSONArray("coordinates");
+
+					JSONObject geometryJson = featureJson
+							.getJSONObject("geometry");
+					JSONArray coordsJson = geometryJson
+							.getJSONArray("coordinates");
 					double lon = coordsJson.getDouble(0);
 					double lat = coordsJson.getDouble(1);
-					
+
 					String strId = featureJson.getString("id");
-					
-					Earthquake eq = new Earthquake(strId, place, time, detail, mag, lat, lon, url);
-					
+
+					Earthquake eq = new Earthquake(strId, place, time, detail,
+							mag, lat, lon, url);
+
 					insertarTerremoto(eq);
 				}
 
@@ -144,11 +145,11 @@ public class EarthquakeList extends ListFragment {
 			}
 		}
 	}
-	
+
 	private void insertarTerremoto(Earthquake eq) {
 		eqdb.insert(eq);
 	}
-	
+
 	private InputStream connectToInternet() {
 		InputStream in;
 		String miUrl = getString(R.string.direccion);
@@ -171,24 +172,45 @@ public class EarthquakeList extends ListFragment {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putStringArrayList(ITEMS_ARRAY, earthquakesList);
+		outState.putSerializable(ITEMS_ARRAY, earthquakesList);
 		super.onSaveInstanceState(outState);
 	}
-	
+
 	private void actualizarTerremoto() {
-		Earthquake eq = new Earthquake(1,"1","Inventado",new Date().getTime(), "Detalle", 1.7, 0.5, 10.4, "www.url.es");
-		String[] campos = {EarthquakeDBOpenHelper.PLACE, EarthquakeDBOpenHelper.DETAIL};
-		String[] datos = {"Updateado","Updateado"};
+		Earthquake eq = new Earthquake(1, "1", "Inventado",
+				new Date().getTime(), "Detalle", 1.7, 0.5, 10.4, "www.url.es");
+		String[] campos = { EarthquakeDBOpenHelper.PLACE,
+				EarthquakeDBOpenHelper.DETAIL };
+		String[] datos = { "Updateado", "Updateado" };
 		String where = EarthquakeDBOpenHelper._ID + " = ?";
-		String[] whereArgs = {String.valueOf(eq.get_id())};
+		String[] whereArgs = { String.valueOf(eq.get_id()) };
 		eqdb.update(eq, campos, datos, where, whereArgs);
 	}
-	
+
 	private void borrarTerremoto() {
-		Earthquake eq = new Earthquake(3,"3","Inventado3",new Date().getTime(), "Detalle3", 1.7, 0.5, 10.4, "www.url.es");
+		Earthquake eq = new Earthquake(3, "3", "Inventado3",
+				new Date().getTime(), "Detalle3", 1.7, 0.5, 10.4, "www.url.es");
 		eqdb.detele(eq);
 	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		//Autorefresh
+		sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		boolean isRefresh = sp.getBoolean(getString(R.string.keyRefresh), false);
+		if(isRefresh) {
+			Log.d("EARTHQUAKE", "Se actualiza automaticamente");
+		}
+		
+		//Magnitud
+		String strMag = sp.getString(getString(R.string.keyMagnitud), "0");
+		int mag = Integer.parseInt(strMag);
+		mostrarLista(mag);
+	}
+	
 }

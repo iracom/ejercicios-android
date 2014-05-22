@@ -1,7 +1,13 @@
 package com.iraitzcompains.earthquake;
 
-public class Earthquake {
+import java.io.Serializable;
 
+import android.text.format.DateFormat;
+
+public class Earthquake implements Serializable {
+
+	private static final long serialVersionUID = 4983844022863032964L;
+	
 	private int _id;
 	private String idStr;
 	private String place;
@@ -78,11 +84,7 @@ public class Earthquake {
 
 	@Override
 	public String toString() {
-		String s = String.valueOf(get_id()) + " " + getIdStr() + " "
-				+ getPlace() + " " + String.valueOf(getTime()) + " "
-				+ getDetail() + " " + String.valueOf(getMagnitude()) + " "
-				+ String.valueOf(getLat()) + " " + String.valueOf(getLon())
-				+ " " + getUrl();
-		return s;
+		String str = String.valueOf(getMagnitude()) + " " + getPlace() + " " + DateFormat.format("yyyy-MM-dd hh:mm:ss", this.getTime());
+		return str;
 	}
 }
