@@ -25,7 +25,7 @@ public class MyAsincTask extends AsyncTask<String, Void, ArrayList<Earthquake>> 
 	
 	public interface IMyAsyncTask {
 		public void showEarthquakes();
-		public void addEarthquakes(ArrayList<Earthquake> earthquakes);
+		public void addEarthquakesToScreen(ArrayList<Earthquake> earthquakes);
 	}
 	
 	private IMyAsyncTask eqList;
@@ -46,8 +46,8 @@ public class MyAsincTask extends AsyncTask<String, Void, ArrayList<Earthquake>> 
 	@Override
 	protected ArrayList<Earthquake> doInBackground(String... params) {
 		String url = params[0];
-		descargarJson(url);
-		return null;
+		ArrayList<Earthquake> newEarthquakes = descargarJson(url);
+		return newEarthquakes;
 	}
 	
 	private ArrayList<Earthquake> descargarJson(String strUrl) {
@@ -94,7 +94,8 @@ public class MyAsincTask extends AsyncTask<String, Void, ArrayList<Earthquake>> 
 							mag, lat, lon, url);
 
 					eqdb.insert(eq);
-					terremotos.add(eq);
+					if(!eqdb.earthquakeExist(eq))
+						terremotos.add(eq);
 				}
 
 			} catch (JSONException e) {
@@ -132,7 +133,7 @@ public class MyAsincTask extends AsyncTask<String, Void, ArrayList<Earthquake>> 
 	@Override
 	protected void onPostExecute(ArrayList<Earthquake> result) {
 		super.onPostExecute(result);
-		eqList.addEarthquakes(result);
+		eqList.addEarthquakesToScreen(result);
 	}
 
 }

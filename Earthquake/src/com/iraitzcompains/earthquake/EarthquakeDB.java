@@ -134,6 +134,21 @@ public class EarthquakeDB {
 		this.closeDB();
 		return terremotos;
 	}
+	
+	public boolean earthquakeExist(Earthquake eq) {
+		boolean exist = false;
+		
+		String[] columnaStrId = {EarthquakeDBOpenHelper.STR_ID};
+		String where = EarthquakeDBOpenHelper.STR_ID + " = ?";
+		String[] whereArgs = {eq.getIdStr()};
+		
+		this.openDB();
+		Cursor cursor = query(columnaStrId,where,whereArgs,null,null,null);
+		if(cursor.getCount() > 0)
+			exist = true;
+		
+		return exist;
+	}
 
 	public void update(Earthquake eq, String[] campos, String[] datos,
 			String where, String[] whereArgs) {

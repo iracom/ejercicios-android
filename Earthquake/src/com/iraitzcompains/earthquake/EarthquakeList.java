@@ -81,15 +81,15 @@ public class EarthquakeList extends ListFragment implements
 	}
 
 	@Override
-	public void addEarthquakes(ArrayList<Earthquake> earthquakes) {
+	public void addEarthquakesToScreen(ArrayList<Earthquake> earthquakes) {
 		sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String strMag = sp.getString(getString(R.string.keyMagnitud), "0");
 		int mag = Integer.parseInt(strMag);
 		Log.d("EARTHQUAKE","Terremotos " + earthquakes.toString());
-		addTerremotos(mag, earthquakes);
+		addEarthquakesToList(mag, earthquakes);
 	}
 
-	private void addTerremotos(double magnitud,
+	private void addEarthquakesToList(double magnitud,
 			ArrayList<Earthquake> earthquakes) {
 		for (Earthquake earthquake : earthquakes) {
 			if(earthquake.getMagnitude() >= magnitud)
@@ -97,23 +97,5 @@ public class EarthquakeList extends ListFragment implements
 		}
 		aa.notifyDataSetChanged();
 	}
-
-
-	// @Override
-	// public void onResume() {
-	// super.onResume();
-	//
-	// //Autorefresh
-	// sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	// boolean isRefresh = sp.getBoolean(getString(R.string.keyRefresh), false);
-	// if(isRefresh) {
-	// Log.d("EARTHQUAKE", "Se actualiza automaticamente");
-	// }
-	//
-	// //Magnitud
-	// String strMag = sp.getString(getString(R.string.keyMagnitud), "0");
-	// int mag = Integer.parseInt(strMag);
-	// mostrarLista(mag);
-	// }
 
 }
