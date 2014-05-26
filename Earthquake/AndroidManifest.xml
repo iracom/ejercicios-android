@@ -28,6 +28,15 @@
             android:name="com.iraitzcompains.earthquake.PreferencesActivity"
             android:label="@string/title_activity_preferences" >
         </activity>
+
+        <provider
+            android:name="com.iraitzcompains.earthquake.EarthquakeContentProvider"
+            android:authorities="com.iraitzcompains.provider.earthquake" />
+
+        <activity
+            android:name="com.iraitzcompains.earthquake.DetailActivity"
+            android:label="@string/title_activity_detail" >
+        </activity>
     </application>
 
 </manifest>

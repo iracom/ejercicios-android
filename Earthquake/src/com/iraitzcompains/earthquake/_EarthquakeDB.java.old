@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class EarthquakeDB {
+public class _EarthquakeDB {
 
 	private Context context;
 	private SQLiteDatabase db;
@@ -21,7 +21,7 @@ public class EarthquakeDB {
 	private String HAVING;
 	private String ORDER;
 
-	public EarthquakeDB(Context context) {
+	public _EarthquakeDB(Context context) {
 		this.context = context;
 	}
 

@@ -7,7 +7,6 @@
     <string name="btn_json">Descargar JSON</string>
     <string name="direccion">http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson</string>
     <string name="title_activity_preferences">PreferencesActivity</string>
-    
     <string name="autorefresh">Autorefresh:</string>
     <string name="interval">Interval:</string>
     <string name="intervalo">Intervalo:</string>
@@ -19,22 +18,20 @@
         <item>15 min</item>
         <item>30 min</item>
     </string-array>
-    
     <string-array name="intervalosValues">
         <item>5</item>
         <item>15</item>
         <item>30</item>
     </string-array>
-    
+
     <string name="keyRefresh">autorefres</string>
     <string name="keyInterval">interval</string>
     <string name="keyMagnitud">magnitud</string>
-    
     <string name="sumRefresh">Se indica si se quiere refrescar la iformación</string>
     <string name="sumInterval">Se indica cada cuanto tiempo se quiere refrescar la iformación</string>
     <string name="sumMagnitud">Se indica el filtro de la magnitud de los terremotos</string>
-    
     <string name="magnitud">Magnitud</string>
+
     <string-array name="magnitudes">
         <item>0</item>
         <item>1</item>
@@ -48,9 +45,10 @@
         <item>9</item>
         <item>10</item>
     </string-array>
-    
+
     <string name="prefWifi">Preferencias de WIFI</string>
     <string name="magnitude">Magnitud:</string>
     <string name="default_magnitud">1</string>
+    <string name="title_activity_detail">DetailActivity</string>
 
 </resources>

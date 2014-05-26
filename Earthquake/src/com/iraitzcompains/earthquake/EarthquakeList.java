@@ -3,39 +3,53 @@ package com.iraitzcompains.earthquake;
 import java.util.ArrayList;
 
 import android.app.ListFragment;
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.text.style.EasyEditSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
-public class EarthquakeList extends ListFragment implements
-		MyAsincTask.IMyAsyncTask {
+public class EarthquakeList extends ListFragment {
 
 	public final static String ITEMS_ARRAY = "ITEMS_ARRAY";
 
-	public ArrayAdapter<Earthquake> aa;
 	public ArrayList<Earthquake> earthquakesList;
-
-	public EarthquakeDB eqdb;
+	public SimpleCursorAdapter sca;
+	
+	private ContentResolver cr;
 
 	SharedPreferences sp;
+	
+	private String from[] = {
+			EarthquakeContentProvider.MAGNITUDE,
+			EarthquakeContentProvider.PLACE,
+			EarthquakeContentProvider.TIME,
+			EarthquakeContentProvider._ID
+	};
+	
+	private int to[] = {
+			R.id.txtMagnitude,
+			R.id.txtPlace,
+			R.id.txtTime
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		earthquakesList = new ArrayList<Earthquake>();
+		cr = getActivity().getContentResolver();
+		
+		sca = new SimpleCursorAdapter(inflater.getContext(), R.layout.list_row, null, from, to, 0);
+		sca.setViewBinder(new EarthQuakeViewBinder());
 
-		aa = new ArrayAdapter<Earthquake>(inflater.getContext(),
-				android.R.layout.simple_list_item_1, earthquakesList);
-
-		setListAdapter(aa);
-
-		eqdb = new EarthquakeDB(inflater.getContext());
+		setListAdapter(sca);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -43,59 +57,36 @@ public class EarthquakeList extends ListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			earthquakesList.addAll((ArrayList<Earthquake>) savedInstanceState
-					.getSerializable(ITEMS_ARRAY));
-			aa.notifyDataSetChanged();
-		} else {
-			// mostrarLista(0);
-			// obtenerInformacion();
-			new MyAsincTask(getActivity(),this)
-					.execute(getString(R.string.direccion));
+		
+		new MyAsincTask(getActivity())
+		.execute(getString(R.string.direccion));
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		String where = null;
+		String whereArgs[] = null;
+		String order = null;
+		
+		Cursor c = cr.query(EarthquakeContentProvider.CONTENT_URI, from, where, whereArgs, order);
+		
+		while(c.moveToNext()) {
+			Log.d("EARTHQUAKE", String.valueOf(c.getLong(c.getColumnIndex(EarthquakeContentProvider.TIME))));
 		}
+		
+		sca.swapCursor(c);
 	}
-
-	private void mostrarLista(double magnitud) {
-		mostrarTerremotos(magnitud);
-	}
-
-	private void mostrarTerremotos(double magnitud) {
-		earthquakesList.clear();
-		earthquakesList.addAll(eqdb.getEarthquakes(magnitud));
-		aa.notifyDataSetChanged();
-	}
-
+	
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable(ITEMS_ARRAY, earthquakesList);
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public void showEarthquakes() {
-		sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String strMag = sp.getString(getString(R.string.keyMagnitud), "0");
-		int mag = Integer.parseInt(strMag);
-		mostrarLista(mag);
-	}
-
-	@Override
-	public void addEarthquakesToScreen(ArrayList<Earthquake> earthquakes) {
-		sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String strMag = sp.getString(getString(R.string.keyMagnitud), "0");
-		int mag = Integer.parseInt(strMag);
-		Log.d("EARTHQUAKE","Terremotos " + earthquakes.toString());
-		addEarthquakesToList(mag, earthquakes);
-	}
-
-	private void addEarthquakesToList(double magnitud,
-			ArrayList<Earthquake> earthquakes) {
-		for (Earthquake earthquake : earthquakes) {
-			if(earthquake.getMagnitude() >= magnitud)
-				earthquakesList.add(0, earthquake);
-		}
-		aa.notifyDataSetChanged();
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		
+		Intent i = new Intent(getActivity(),DetailActivity.class);
+		i.putExtra("_id", id);
+		startActivity(i);
+		
 	}
 
 }

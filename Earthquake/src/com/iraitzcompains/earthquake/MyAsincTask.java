@@ -14,33 +14,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class MyAsincTask extends AsyncTask<String, Void, ArrayList<Earthquake>> {
 
-	private EarthquakeDB eqdb;
 	private Context context;
 	
-	public interface IMyAsyncTask {
-		public void showEarthquakes();
-		public void addEarthquakesToScreen(ArrayList<Earthquake> earthquakes);
-	}
-	
-	private IMyAsyncTask eqList;
-	
-	public MyAsincTask(Context context, IMyAsyncTask fragmento) {
+	public MyAsincTask(Context context) {
 		this.context = context;
-		eqList = (IMyAsyncTask)fragmento;
-		
-		eqdb = new EarthquakeDB(context);
 	}
 	
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		eqList.showEarthquakes();
 	}
 	
 	@Override
@@ -92,10 +81,9 @@ public class MyAsincTask extends AsyncTask<String, Void, ArrayList<Earthquake>> 
 
 					Earthquake eq = new Earthquake(strId, place, time, detail,
 							mag, lat, lon, url);
+					
+					this.insertEarthQuake(eq);
 
-					eqdb.insert(eq);
-					if(!eqdb.earthquakeExist(eq))
-						terremotos.add(eq);
 				}
 
 			} catch (JSONException e) {
@@ -109,7 +97,6 @@ public class MyAsincTask extends AsyncTask<String, Void, ArrayList<Earthquake>> 
 
 	private InputStream connectToInternet(String strUrl) {
 		InputStream in;
-		//String miUrl = this.context.getString(R.string.direccion);
 		try {
 			URL url = new URL(strUrl);
 
@@ -133,7 +120,20 @@ public class MyAsincTask extends AsyncTask<String, Void, ArrayList<Earthquake>> 
 	@Override
 	protected void onPostExecute(ArrayList<Earthquake> result) {
 		super.onPostExecute(result);
-		eqList.addEarthquakesToScreen(result);
+	}
+	
+	private void insertEarthQuake(Earthquake eq) {
+		ContentValues values = new ContentValues();
+		
+		values.put(EarthquakeContentProvider.STR_ID, eq.getIdStr());
+		values.put(EarthquakeContentProvider.PLACE, eq.getPlace());
+		values.put(EarthquakeContentProvider.TIME, eq.getTime());
+		values.put(EarthquakeContentProvider.MAGNITUDE, eq.getMagnitude());
+		values.put(EarthquakeContentProvider.LAT, eq.getLat());
+		values.put(EarthquakeContentProvider.LONG, eq.getLon());
+		values.put(EarthquakeContentProvider.URL, eq.getUrl());
+		
+		context.getContentResolver().insert(EarthquakeContentProvider.CONTENT_URI, values);
 	}
 
 }

@@ -28,7 +28,7 @@ public class MainActivity extends Activity{
 			
 			fragmentTransaction.commit();
 		}
-
+		
 	}
 
 	@Override

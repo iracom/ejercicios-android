@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class EarthquakeDBOpenHelper extends SQLiteOpenHelper {
+public class _EarthquakeDBOpenHelper extends SQLiteOpenHelper {
 
 	public static final String DATABASE_NAME = "Earthquake.db";
 	public static final String TABLE_NAME = "Earthquake";
@@ -36,9 +36,9 @@ public class EarthquakeDBOpenHelper extends SQLiteOpenHelper {
 			+ CREATE_AT + " NUMERIC, "
 			+ UPDATE_AT + " NUMERIC)";
 	private static final String DROP_TABLE = "DROP TABLE IF EXISTS "
-			+ DATABASE_NAME;
+			+ TABLE_NAME;
 
-	public EarthquakeDBOpenHelper(Context context, String name,
+	public _EarthquakeDBOpenHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
 
