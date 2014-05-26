@@ -6,13 +6,16 @@
 
     <TextView
         android:id="@+id/txtMagnitude"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:text="a" />
+        android:layout_weight="3"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/txt_view_magnitud"
+        android:textColor="@color/my_blue"
+        android:textSize="30dp" />
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="1" >
@@ -21,13 +24,13 @@
             android:id="@+id/txtPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="b" />
+            android:text="@string/txt_view_place" />
 
         <TextView
             android:id="@+id/txtTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="c" />
+            android:text="@string/txt_view_time" />
 
     </LinearLayout>
 
