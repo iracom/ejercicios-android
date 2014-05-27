@@ -54,5 +54,6 @@
     <string name="txt_view_magnitud">Magnitud</string>
     <string name="txt_view_place">Place</string>
     <string name="txt_view_time">Time</string>
+    <string name="txt_view_flecha">></string>
 
 </resources>

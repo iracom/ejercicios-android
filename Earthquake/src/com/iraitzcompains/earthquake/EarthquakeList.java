@@ -3,22 +3,25 @@ package com.iraitzcompains.earthquake;
 import java.util.ArrayList;
 
 import android.app.ListFragment;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.style.EasyEditSpan;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class EarthquakeList extends ListFragment {
+public class EarthquakeList extends ListFragment implements LoaderCallbacks<Cursor>{
 
 	public final static String ITEMS_ARRAY = "ITEMS_ARRAY";
+	public final static int ID_EARTHQUAKE_LOADER = 1;
 
 	public ArrayList<Earthquake> earthquakesList;
 	public SimpleCursorAdapter sca;
@@ -49,7 +52,8 @@ public class EarthquakeList extends ListFragment {
 		sca = new SimpleCursorAdapter(inflater.getContext(), R.layout.list_row, null, from, to, 0);
 		sca.setViewBinder(new EarthQuakeViewBinder());
 
-		setListAdapter(sca);
+		//setListAdapter(sca);
+		getLoaderManager().initLoader(ID_EARTHQUAKE_LOADER, null, this);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -63,30 +67,47 @@ public class EarthquakeList extends ListFragment {
 	}
 	
 	@Override
-	public void onResume() {
-		super.onResume();
-		
-		String where = null;
-		String whereArgs[] = null;
-		String order = null;
-		
-		Cursor c = cr.query(EarthquakeContentProvider.CONTENT_URI, from, where, whereArgs, order);
-		
-		while(c.moveToNext()) {
-			Log.d("EARTHQUAKE", String.valueOf(c.getLong(c.getColumnIndex(EarthquakeContentProvider.TIME))));
-		}
-		
-		sca.swapCursor(c);
-	}
-	
-	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
 		Intent i = new Intent(getActivity(),DetailActivity.class);
-		i.putExtra("_id", id);
+		i.putExtra(EarthquakeContentProvider._ID, id);
 		startActivity(i);
 		
+	}
+	
+	@Override
+	public void onResume() {
+		getLoaderManager().restartLoader(ID_EARTHQUAKE_LOADER, null, this);
+		super.onResume();
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String minMag = sp.getString(getString(R.string.keyMagnitud), "0");
+		
+		String where = EarthquakeContentProvider.MAGNITUDE + " >= ? ";
+		String whereArgs[] = {minMag};
+		String order = EarthquakeContentProvider.TIME + " DESC";
+		
+		CursorLoader loader = new CursorLoader(getActivity(), EarthquakeContentProvider.CONTENT_URI, EarthquakeContentProvider.projection, where, whereArgs, order);
+		
+		return loader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+		sca.swapCursor(c);
+		
+		setListAdapter(sca);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		sca.swapCursor(null);
+		
+		setListAdapter(sca);
 	}
 
 }

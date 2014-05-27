@@ -33,6 +33,10 @@ public class EarthquakeContentProvider extends ContentProvider {
 	public static final String URL = EarthquakeOpenHelper.URL;
 	public static final String CREATE_AT = EarthquakeOpenHelper.CREATE_AT;
 	public static final String UPDATE_AT = EarthquakeOpenHelper.UPDATE_AT;
+	
+	public static final String[] projection = {
+			_ID, STR_ID, PLACE, TIME, DETAIL, MAGNITUDE, LAT, LONG, URL, CREATE_AT, UPDATE_AT
+		};
 
 	// SQLiteOpenHelper
 	private class EarthquakeOpenHelper extends SQLiteOpenHelper {
@@ -105,7 +109,7 @@ public class EarthquakeContentProvider extends ContentProvider {
 	public boolean onCreate() {
 		eqSqliteHelper = new EarthquakeOpenHelper(getContext(), DATABASE_NAME, null, DATABASE_VERSION);
 		
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -118,8 +122,10 @@ public class EarthquakeContentProvider extends ContentProvider {
 		long id = db.insert(TABLE_NAME, null, values);
 		
 		if(id > -1) {
+			//Construir y devolver la Uri de la nueva fila insertada
 			Uri insertedId = ContentUris.withAppendedId(CONTENT_URI, id);
 			
+			//Se avisa acualquier observer el cambio en el data set
 			getContext().getContentResolver().notifyChange(insertedId, null);
 			
 			return insertedId;
@@ -143,7 +149,7 @@ public class EarthquakeContentProvider extends ContentProvider {
 		switch(uriMatcher.match(uri)) {
 		case SINGLE_ROW:
 			String rowID = uri.getPathSegments().get(1);
-			queryBuilder.appendWhere(" _ID = " + rowID);
+			queryBuilder.appendWhere(EarthquakeOpenHelper._ID + " = " + rowID);
 			break;
 		}
 		
