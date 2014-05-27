@@ -1,5 +1,8 @@
 package com.iraitzcompains.earthquake;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -39,6 +42,7 @@ public class DetailActivity extends Activity implements LoaderCallbacks<Cursor>{
 			Intent intent = getIntent();
 			if (intent != null) {
 				_id = intent.getLongExtra("_id", 0);
+				getLoaderManager().initLoader(ID_EARTHQUAKE_LOADER, null, this);
 			}
 		}
 	}
@@ -61,7 +65,16 @@ public class DetailActivity extends Activity implements LoaderCallbacks<Cursor>{
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-		
+		if(c.moveToFirst()) {
+			int indMagnitude = c.getColumnIndex(EarthquakeContentProvider.MAGNITUDE);
+			int indPlace = c.getColumnIndex(EarthquakeContentProvider.PLACE);
+			int indTime = c.getColumnIndex(EarthquakeContentProvider.TIME);
+			
+			txtMag.setText(String.valueOf(c.getDouble(indMagnitude)));
+			txtPlace.setText(c.getString(indPlace));
+			SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss aaa", Locale.ENGLISH);
+			txtTime.setText(sdf.format(c.getLong(indTime)));
+		}
 	}
 
 	@Override
