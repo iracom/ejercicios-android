@@ -1,10 +1,10 @@
 package com.iraitzcompains.earthquake;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 public class DetailActivity extends Activity implements LoaderCallbacks<Cursor>{
@@ -34,11 +33,11 @@ public class DetailActivity extends Activity implements LoaderCallbacks<Cursor>{
 		txtPlace = (TextView)findViewById(R.id.txtDetailPlace);
 		txtTime = (TextView)findViewById(R.id.txtDetailTime);
 		
-		
 		if (savedInstanceState == null) {
 			Intent intent = getIntent();
 			if (intent != null) {
 				_id = intent.getLongExtra("_id", 0);
+				getLoaderManager().initLoader(ID_EARTHQUAKE_LOADER, null, this);
 			}
 		}
 	}
@@ -61,7 +60,16 @@ public class DetailActivity extends Activity implements LoaderCallbacks<Cursor>{
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-		
+		if(c.moveToFirst()) {
+			int indMagnitude = c.getColumnIndex(EarthquakeContentProvider.MAGNITUDE);
+			int indPlace = c.getColumnIndex(EarthquakeContentProvider.PLACE);
+			int indTime = c.getColumnIndex(EarthquakeContentProvider.TIME);
+			
+			txtMag.setText(String.valueOf(c.getDouble(indMagnitude)));
+			txtPlace.setText(c.getString(indPlace));
+			SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss aaa", Locale.ENGLISH);
+			txtTime.setText(sdf.format(c.getLong(indTime)));
+		}
 	}
 
 	@Override

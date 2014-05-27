@@ -49,7 +49,8 @@
     <string name="prefWifi">Preferencias de WIFI</string>
     <string name="magnitude">Magnitud:</string>
     <string name="default_magnitud">1</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    
+    <string name="title_activity_detail">Details</string>
     
     <string name="txt_view_magnitud">Magnitud</string>
     <string name="txt_view_place">Place</string>
