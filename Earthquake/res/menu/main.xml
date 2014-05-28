@@ -7,5 +7,17 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/action_refresh"/>
+    
+    <item
+        android:id="@+id/action_stop_service"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/action_stop_service"/>
 
 </menu>

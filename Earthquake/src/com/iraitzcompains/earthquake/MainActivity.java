@@ -69,8 +69,19 @@ public class MainActivity extends Activity{
 			startActivityForResult(i, SHOW_PREFERENCES);
 			
 			return true;
+		} else if(id == R.id.action_refresh) {
+			((EarthquakeList)getFragmentManager().findFragmentByTag("Earthquakes")).refreshEarthQuakes();
+		} else if(id == R.id.action_stop_service) {
+			((EarthquakeList)getFragmentManager().findFragmentByTag("Earthquakes")).stopService();
 		}
+		
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		((EarthquakeList)getFragmentManager().findFragmentByTag("Earthquakes")).stopService();
+		super.onDestroy();
 	}
 
 }

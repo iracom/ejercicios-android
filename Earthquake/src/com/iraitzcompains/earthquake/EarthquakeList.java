@@ -81,6 +81,12 @@ public class EarthquakeList extends ListFragment implements LoaderCallbacks<Curs
 		getLoaderManager().restartLoader(ID_EARTHQUAKES_LOADER, null, this);
 		super.onResume();
 	}
+	
+	public void refreshEarthQuakes() {
+		Intent intent = new Intent(getActivity(), EarthquakeUpdateService.class);
+		intent.putExtra("url", getResources().getString(R.string.direccion));
+		getActivity().startService(intent);
+	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -108,6 +114,11 @@ public class EarthquakeList extends ListFragment implements LoaderCallbacks<Curs
 		sca.swapCursor(null);
 		
 		setListAdapter(sca);
+	}
+
+	public void stopService() {
+		Intent intent = new Intent (getActivity(),EarthquakeUpdateService.class);
+		getActivity().stopService(intent);
 	}
 
 }

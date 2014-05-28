@@ -28,6 +28,7 @@ public class PreferencesActivity extends Activity implements OnSharedPreferenceC
 			String key) {
 		if ( key.equals(getString(R.string.keyRefresh)))
 			Log.d("PERSISTENCE","Se ha modificado " + key + " -> " + prefs.getBoolean(key, false));
+			//boolean isAutorefresh =  
 		else
 			Log.d("PERSISTENCE","Se ha modificado " + key + " -> " + prefs.getString(key, "defecto"));
 		

@@ -37,6 +37,8 @@
             android:name="com.iraitzcompains.earthquake.DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>
+        
+        <service android:enabled="true" android:name="com.iraitzcompains.earthquake.EarthquakeUpdateService"/>
     </application>
 
 </manifest>
