@@ -1,6 +1,8 @@
 package com.iraitzcompains.earthquake;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -24,6 +26,23 @@ public class MainActivity extends Activity{
 		fragmentTransaction = fragmentManager.beginTransaction();
 		
 		if(savedInstanceState == null) {
+//			//Se a–ade un action bar para poder seleccionar entre lista de terremotos y mapa.
+//			ActionBar abar = getActionBar();
+//			
+//			abar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//			
+//			ActionBar.Tab tabList = abar.newTab().setText("Terremotos");
+//			ActionBar.Tab tabMap = abar.newTab().setText("Mapa");
+//			
+//			Fragment listFragment = new EarthquakeList();
+//			Fragment mapFragment = new EarthquakeMap();
+//			
+//			tabList.setTabListener(new MyTabListener(listFragment));
+//			tabMap.setTabListener(new MyTabListener(mapFragment));
+//			
+//			abar.addTab(tabList);
+//			abar.addTab(tabMap);
+			
 			fragmentTransaction.add(R.id.mi_lista, new EarthquakeList(), "Earthquakes");
 			
 			fragmentTransaction.commit();

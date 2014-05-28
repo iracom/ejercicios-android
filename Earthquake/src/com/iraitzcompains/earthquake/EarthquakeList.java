@@ -21,7 +21,7 @@ import android.widget.SimpleCursorAdapter;
 public class EarthquakeList extends ListFragment implements LoaderCallbacks<Cursor>{
 
 	public final static String ITEMS_ARRAY = "ITEMS_ARRAY";
-	public final static int ID_EARTHQUAKE_LOADER = 1;
+	public final static int ID_EARTHQUAKES_LOADER = 1;
 
 	public ArrayList<Earthquake> earthquakesList;
 	public SimpleCursorAdapter sca;
@@ -53,7 +53,7 @@ public class EarthquakeList extends ListFragment implements LoaderCallbacks<Curs
 		sca.setViewBinder(new EarthQuakeViewBinder());
 
 		//setListAdapter(sca);
-		getLoaderManager().initLoader(ID_EARTHQUAKE_LOADER, null, this);
+		getLoaderManager().initLoader(ID_EARTHQUAKES_LOADER, null, this);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -78,7 +78,7 @@ public class EarthquakeList extends ListFragment implements LoaderCallbacks<Curs
 	
 	@Override
 	public void onResume() {
-		getLoaderManager().restartLoader(ID_EARTHQUAKE_LOADER, null, this);
+		getLoaderManager().restartLoader(ID_EARTHQUAKES_LOADER, null, this);
 		super.onResume();
 	}
 

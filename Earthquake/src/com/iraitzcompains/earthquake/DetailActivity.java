@@ -41,7 +41,7 @@ public class DetailActivity extends Activity implements LoaderCallbacks<Cursor>{
 		if (savedInstanceState == null) {
 			Intent intent = getIntent();
 			if (intent != null) {
-				_id = intent.getLongExtra("_id", 0);
+				_id = intent.getLongExtra(EarthquakeContentProvider._ID, 0);
 				getLoaderManager().initLoader(ID_EARTHQUAKE_LOADER, null, this);
 			}
 		}
@@ -49,12 +49,10 @@ public class DetailActivity extends Activity implements LoaderCallbacks<Cursor>{
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-		String minMag = sp.getString(getString(R.string.keyMagnitud), "0");
 		
-		String where = EarthquakeContentProvider.MAGNITUDE + " >= ? ";
-		String whereArgs[] = {minMag};
-		String order = EarthquakeContentProvider.TIME + " DESC";
+		String where = null;
+		String whereArgs[] = null;
+		String order = null;
 		
 		Uri rowAdress = ContentUris.withAppendedId(EarthquakeContentProvider.CONTENT_URI, _id);
 		
