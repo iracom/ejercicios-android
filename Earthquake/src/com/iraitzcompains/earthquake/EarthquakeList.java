@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,8 +84,13 @@ public class EarthquakeList extends ListFragment implements LoaderCallbacks<Curs
 	}
 	
 	public void refreshEarthQuakes() {
+		Log.d("EARTHQUAKE","EathquakeList.refreshEarthQuakes()");
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String interval = sp.getString(getString(R.string.keyInterval), "30");
+		
 		Intent intent = new Intent(getActivity(), EarthquakeUpdateService.class);
 		intent.putExtra("url", getResources().getString(R.string.direccion));
+		intent.putExtra(getString(R.string.keyInterval), interval);
 		getActivity().startService(intent);
 	}
 
@@ -117,6 +123,7 @@ public class EarthquakeList extends ListFragment implements LoaderCallbacks<Curs
 	}
 
 	public void stopService() {
+		Log.d("EARTHQUAKE","EathquakeList.stopService()");
 		Intent intent = new Intent (getActivity(),EarthquakeUpdateService.class);
 		getActivity().stopService(intent);
 	}

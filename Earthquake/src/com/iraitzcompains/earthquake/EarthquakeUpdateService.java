@@ -52,12 +52,12 @@ public class EarthquakeUpdateService extends Service {
 			}
 			
 		});
+		
+		t.start();
 		return Service.START_STICKY;
 	}
 	
-	private ArrayList<Earthquake> descargarJson(String strUrl) {
-		ArrayList<Earthquake> terremotos = new ArrayList<Earthquake>();
-		
+	private void descargarJson(String strUrl) {
 		InputStream in = connectToInternet(strUrl);
 		if (in != null) {
 			BufferedReader bReader = new BufferedReader(new InputStreamReader(
@@ -99,16 +99,14 @@ public class EarthquakeUpdateService extends Service {
 							mag, lat, lon, url);
 					
 					this.insertEarthQuake(eq);
-
+					Log.d("EARTHQUAKE", "EarthquakeUpdateService.descargarJson Se ejecuta el insert");
 				}
 
 			} catch (JSONException e) {
 				Log.d("EARTHQUAKE", e.getMessage());
 			}
-			return terremotos;
-		} else {
-			return null;
 		}
+		stopSelf();
 	}
 	
 	private InputStream connectToInternet(String strUrl) {

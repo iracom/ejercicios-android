@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,8 @@ import android.view.MenuItem;
 public class MainActivity extends Activity{
 	
 	private static final int SHOW_PREFERENCES = 0;
+	
+	public static final String MIS_PREFES = "mis_preferencias";
 	
 	FragmentManager fragmentManager;
 	FragmentTransaction fragmentTransaction;
@@ -24,6 +27,10 @@ public class MainActivity extends Activity{
 		
 		fragmentManager = getFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
+		
+//		//Para controlar que es la primera vez que se entra en la aplicaci—n o no
+//		SharedPreferences mySP = getSharedPreferences(MIS_PREFES, Activity.MODE_PRIVATE);
+//		boolean isFirstTime = mySP.getBoolean("keyFirstTime", true);
 		
 		if(savedInstanceState == null) {
 //			//Se a–ade un action bar para poder seleccionar entre lista de terremotos y mapa.
@@ -77,11 +84,6 @@ public class MainActivity extends Activity{
 		
 		return super.onOptionsItemSelected(item);
 	}
-	
-	@Override
-	protected void onDestroy() {
-		((EarthquakeList)getFragmentManager().findFragmentByTag("Earthquakes")).stopService();
-		super.onDestroy();
-	}
+
 
 }
