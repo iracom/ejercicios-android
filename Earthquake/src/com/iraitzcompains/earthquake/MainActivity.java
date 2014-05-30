@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -46,26 +47,26 @@ public class MainActivity extends Activity{
 		}
 		
 		if(savedInstanceState == null) {
-//			//Se a–ade un action bar para poder seleccionar entre lista de terremotos y mapa.
-//			ActionBar abar = getActionBar();
-//			
-//			abar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//			
-//			ActionBar.Tab tabList = abar.newTab().setText("Terremotos");
-//			ActionBar.Tab tabMap = abar.newTab().setText("Mapa");
-//			
-//			Fragment listFragment = new EarthquakeList();
-//			Fragment mapFragment = new EarthquakeMap();
-//			
-//			tabList.setTabListener(new MyTabListener(listFragment));
-//			tabMap.setTabListener(new MyTabListener(mapFragment));
-//			
-//			abar.addTab(tabList);
-//			abar.addTab(tabMap);
+			//Se a–ade un action bar para poder seleccionar entre lista de terremotos y mapa.
+			ActionBar abar = getActionBar();
 			
-			fragmentTransaction.add(R.id.mi_lista, new EarthquakeList(), "Earthquakes");
+			abar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 			
-			fragmentTransaction.commit();
+			ActionBar.Tab tabList = abar.newTab().setText("Terremotos");
+			ActionBar.Tab tabMap = abar.newTab().setText("Mapa");
+			
+			//Fragment listFragment = new EarthquakeList();
+			//Fragment mapFragment = new EarthquakeMap();
+			
+			tabList.setTabListener(new MyTabListener<EarthquakeList>(this,R.id.container,EarthquakeList.class));
+			tabMap.setTabListener(new MyTabListener<EarthquakeMap>(this,R.id.container,EarthquakeMap.class));
+			
+			abar.addTab(tabList);
+			abar.addTab(tabMap);
+			
+			//fragmentTransaction.add(R.id.mi_lista, new EarthquakeList(), "Earthquakes");
+			
+			//fragmentTransaction.commit();
 		}
 		
 	}
@@ -89,11 +90,11 @@ public class MainActivity extends Activity{
 			startActivityForResult(i, SHOW_PREFERENCES);
 			
 			return true;
-		} else if(id == R.id.action_refresh) {
+		} /*else if(id == R.id.action_refresh) {
 			((EarthquakeList)getFragmentManager().findFragmentByTag("Earthquakes")).refreshEarthQuakes();
 		} else if(id == R.id.action_stop_service) {
 			((EarthquakeList)getFragmentManager().findFragmentByTag("Earthquakes")).stopService();
-		}
+		}*/
 		
 		return super.onOptionsItemSelected(item);
 	}

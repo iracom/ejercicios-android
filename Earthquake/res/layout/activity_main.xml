@@ -8,7 +8,7 @@
     tools:ignore="MergeRootFrame" >
 
     <FrameLayout
-        android:id="@+id/mi_lista"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </FrameLayout>

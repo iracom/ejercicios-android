@@ -2,34 +2,46 @@ package com.iraitzcompains.earthquake;
 
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 
-public class MyTabListener implements TabListener {
+public class MyTabListener<T extends Fragment> implements TabListener {
 	
 	private Fragment fragment;
-
-	public MyTabListener(Fragment fragment) {
-		super();
-		this.fragment = fragment;
+	private Activity activity;
+	private Class<T> fragmentClass;
+	private int fragmentContainer;
+	
+	public MyTabListener(Activity activity, int fragmentContainer, Class<T> fragmentClass) {
+		this.activity = activity;
+		this.fragmentContainer = fragmentContainer;
+		this.fragmentClass = fragmentClass;
 	}
 
 	@Override
-	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		if(fragment != null) {
+			ft.attach(fragment);
+		}
 	}
 
 	@Override
-	public void onTabSelected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		if(fragment == null){
+			String fragmentName = fragmentClass.getName();
+			fragment = Fragment.instantiate(activity, fragmentName);
+			ft.add(fragmentContainer, fragment, fragmentName);
+		} else {
+			ft.attach(fragment);
+		}
 	}
 
 	@Override
-	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		if(fragment != null) {
+			ft.detach(fragment);
+		}
 	}
 
 }
