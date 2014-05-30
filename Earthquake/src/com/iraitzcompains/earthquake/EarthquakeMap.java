@@ -5,6 +5,7 @@ import java.util.HashMap;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -17,6 +18,8 @@ import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -77,6 +80,18 @@ public class EarthquakeMap extends MapFragment implements LoaderCallbacks<Cursor
 				long id = c.getLong(indId);
 				eqHash.put(marker, id);
 			}
+			
+			map.setOnMarkerClickListener(new OnMarkerClickListener() {
+				
+				@Override
+				public boolean onMarkerClick(Marker marker) {
+					Intent intent = new Intent(getActivity(),DetailActivity.class);
+					long id = eqHash.get(marker);
+					intent.putExtra(EarthquakeContentProvider._ID, id);
+					startActivity(intent);
+					return true;
+				}
+			});
 		}
 	}
 
