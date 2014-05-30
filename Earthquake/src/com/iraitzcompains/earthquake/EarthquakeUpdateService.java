@@ -18,6 +18,7 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -36,7 +37,6 @@ public class EarthquakeUpdateService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
-		Log.d("EARTHQUAKE","Se inicio el servicio");
 		
 		if(intent != null) {
 			url = intent.getStringExtra("url");
@@ -98,8 +98,10 @@ public class EarthquakeUpdateService extends Service {
 					Earthquake eq = new Earthquake(strId, place, time, detail,
 							mag, lat, lon, url);
 					
-					this.insertEarthQuake(eq);
-					Log.d("EARTHQUAKE", "EarthquakeUpdateService.descargarJson Se ejecuta el insert");
+					Uri eqInserted = this.insertEarthQuake(eq);
+					
+					/*if(eqInserted != null)
+						Log.d("EARTHQUAKE","Terremeoto insertado: " + eqInserted.toString());*/
 				}
 
 			} catch (JSONException e) {
@@ -124,14 +126,14 @@ public class EarthquakeUpdateService extends Service {
 				return in;
 			}
 		} catch (MalformedURLException e) {
-			Log.d("EARTHQUAKE", "La url no es v‡lida");
+			Log.d("EARTHQUAKE", "MalformedURLException: La url no es v‡lida");
 		} catch (IOException e) {
-			Log.d("EARTHQUAKE", e.getMessage());
+			Log.d("EARTHQUAKE", "IOException: " + e.getMessage());
 		}
 		return null;
 	}
 	
-	private void insertEarthQuake(Earthquake eq) {
+	private Uri insertEarthQuake(Earthquake eq) {
 		ContentValues values = new ContentValues();
 		
 		values.put(EarthquakeContentProvider.STR_ID, eq.getIdStr());
@@ -142,7 +144,9 @@ public class EarthquakeUpdateService extends Service {
 		values.put(EarthquakeContentProvider.LONG, eq.getLon());
 		values.put(EarthquakeContentProvider.URL, eq.getUrl());
 		
-		context.getContentResolver().insert(EarthquakeContentProvider.CONTENT_URI, values);
+		Uri eqInserted = context.getContentResolver().insert(EarthquakeContentProvider.CONTENT_URI, values);
+		
+		return eqInserted;
 	}
 	
 	@Override

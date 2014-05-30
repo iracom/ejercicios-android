@@ -79,8 +79,9 @@ public class EarthquakeList extends ListFragment implements LoaderCallbacks<Curs
 	
 	@Override
 	public void onResume() {
-		getLoaderManager().restartLoader(ID_EARTHQUAKES_LOADER, null, this);
 		super.onResume();
+		getLoaderManager().restartLoader(ID_EARTHQUAKES_LOADER, null, this);
+		Log.d("EARTRHQUAKE","EarthquakeList.onResume");
 	}
 	
 	public void refreshEarthQuakes() {

@@ -44,9 +44,9 @@
 
         <receiver
             android:name="com.iraitzcompains.earthquake.EarthquakeReceiver"
-            android:enabled="false"
+            android:enabled="true"
             android:exported="false">
-            <intent-filter><action android:name="ALARM_ACTION"/></intent-filter>
+            <intent-filter><action android:name="com.iraitzcompains.earthquake.ALARM_ACTION"/></intent-filter>
         </receiver>
     </application>
 

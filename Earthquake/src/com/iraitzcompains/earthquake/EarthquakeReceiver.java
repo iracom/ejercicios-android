@@ -12,12 +12,9 @@ public class EarthquakeReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		
-		Log.d("EARTHQUAKE","EarthquakeReceiver.onReceive");
-		
 		Intent myIntent = new Intent(context, EarthquakeUpdateService.class);
 		myIntent.putExtra("url", context.getResources().getString(R.string.direccion));
 		context.startService(myIntent);
 		
-		//throw new UnsupportedOperationException("Not yet implemented");
 	}
 }

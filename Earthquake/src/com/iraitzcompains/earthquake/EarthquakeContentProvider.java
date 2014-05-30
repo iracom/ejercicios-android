@@ -156,7 +156,7 @@ public class EarthquakeContentProvider extends ContentProvider {
 		queryBuilder.setTables(TABLE_NAME);
 		
 		Cursor cursor = queryBuilder.query(db, projection, where, whereArgs, null, null, sortOrder);
-		
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
 	}
 	
